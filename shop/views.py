@@ -5,13 +5,32 @@ from math import ceil
 
 # Create your views here.
 def index(request):
-    products = Product.objects.all()
-    print(products)
-    n = len(products)
-    nSlides = n // 4 + ceil((n / 4) - (n // 4))
+#    products = Product.objects.all()
+#    print(products)
+    
 
-    params = {"no_of_slides": nSlides, 'range': range(1, nSlides), "product": products}
+    # params = {"no_of_slides": nSlides, 'range': range(1, nSlides), "product": products}
+
+    allProds = []
+    catProds = Product.objects.values('category', 'id')
+    cats = {item['category'] for item in catProds}
+    for cat in cats:
+        product = Product.objects.filter(category=cat)
+        n = len(product)
+        nSlides = n // 4 + ceil((n / 4) - (n // 4))
+        allProds.append([product, range(1, nSlides), nSlides])
+
+    #allProds = [
+     #   [products, range(1, nSlides), nSlides],
+      #  [products, range(1, nSlides), nSlides]
+       # ]
+    params = {
+        "allProds": allProds
+        }
     return render(request, "shop/index.html", params)
+
+
+
 
 def about(request):
     return render(request, "shop/about.html")
@@ -26,7 +45,7 @@ def search(request):
     return HttpResponse("We r at search")
 
 def productView(request):
-    return HttpResponse("We r at prodvuct view")
+    return HttpResponse("We r at product view")
 
 def checkout(request):
     return HttpResponse("We r at checkout")
