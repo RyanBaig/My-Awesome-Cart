@@ -19,8 +19,8 @@
  }
 
  .col-md-3 img {
- max-width: 227px;
- height: 242px;
+ width: 170px;
+ height: 200px;
  }
 
  body .carousel-indicator li {
@@ -40,6 +40,7 @@
  .carousel-control-next {
  top: auto;
  bottom: auto;
+ padding-top: 222px;
  }
 
  body .no-padding {
@@ -57,8 +58,9 @@
 
     <!--Slideshow starts here -->
     {% for product, range, nSlides in allProds %}
-    <h3 class="my-4">Flash Sale on {{ product.0.category }} - Recommended Items</h3>
-        <div id="demo{{ forloop.counter }}" class="carousel slide my-3" data-ride="carousel">
+    <h4 class="my-4">Flash Sale on {{ product.0.category }} - Recommended Items</h4>
+    <div class="row">
+        <div id="demo{{ forloop.counter }}" class="col carousel slide my-3" data-ride="carousel">
             <ul class="carousel-indicators">
                 <li data-target="#demo{{ forloop.counter }}" data-slide-to="0" class="active"></li>
 
@@ -81,6 +83,7 @@
                                 <h5 class="card-title">{{ i.product_name }}</h5>
                                 <p class="card-text">{{ i.desc}}</p>
                                 <button href="#" id="pr{{ i.id }}" class="btn btn-primary cart">Add to Cart</button>
+                                <a href="/shop/products/{{ i.id }}"><button href="/shop/products/{{ i.id }}" id="vd{{ i.id }}" class="btn btn-primary">View Details</button></a>
                             </div>
                         </div>
                     </div>
@@ -88,6 +91,7 @@
                     </div> 
                     <div class="carousel-item">
                     {% endif %}
+                    
     {% endfor %}
                     </div>
 
@@ -104,6 +108,7 @@
         <a class="carousel-control-next" href="#demo{{ forloop.counter }}" data-slide="next">
             <span class="carousel-control-next-icon"></span>
         </a>
+    </div>
     {% endfor %}
         <!--                                EXERCISE
         <h2>About Product</h2>
@@ -131,28 +136,5 @@
 
 
 {% block js %}
-<script>
-    
 
-    if (localStorage.getItem('cart') === null) {
-        var cart = {};
-
-    } else {
-        cart = JSON.parse(localStorage.getItem('cart'));
-    };
-
-    $('.cart').click(function () {
-        
-        var idstr = this.id.toString();
-        
-        if (cart[idstr] != undefined) {
-            cart[idstr] += 1;
-        } else {
-            cart[idstr] = 1;
-        };
-    console.log(cart)
-    localStorage.setItem('cart', JSON.stringify(cart));
-    });
-
-</script>
  {% endblock %}
