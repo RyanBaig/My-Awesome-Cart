@@ -72,38 +72,11 @@
         integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
         crossorigin="anonymous"></script>
     
-    <script>
-    
+<script>
 
-    if (localStorage.getItem('cart') === null) {
-        var cart = {};
-
-    } else {
-        cart = JSON.parse(localStorage.getItem('cart'));
-        document.getElementById('cart').innerHTML = Object.keys(cart).length;
-    };
-
-    $('.cart').click(function () {
-        
-        var idstr = this.id.toString();
-        
-        if (cart[idstr] != undefined) {
-            cart[idstr] += 1;
-        } else {
-            cart[idstr] = 1;
-        };
-    console.log(cart)
-    localStorage.setItem('cart', JSON.stringify(cart));
-    document.getElementById('cart').innerHTML = Object.keys(cart).length;
-    });
-    document.getElementById('cart').innerHTML = Object.keys(cart).length;
-
-    $('#popcart').popover()
-
-    document.getElementById("popcart").setAttribute('data-content', '<h5>Cart for your items in My Awesome Cart</h5>');
+{% block comment %} //
+{% endblock comment %}
 </script>
-
-
     {% block js %}
     
     {% endblock %}
