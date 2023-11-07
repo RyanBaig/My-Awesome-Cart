@@ -11,7 +11,7 @@ console.log(cart);
 var sum = 0;
 if ($.isEmptyObject(cart)) {
     // If object is empty
-    mystr = "<h6>Your cart is empty, please add some items before checking out ! </h6>"
+    mystr = "<h6>Your Cart is Empty, Please Add Some Items Before Checking Out! </h6>"
     $('#items').append(mystr);
     button = document.getElementById('placeorderButton').setAttribute('class', 'btn btn-primary disabled')
 }
@@ -47,44 +47,50 @@ document.getElementById('cart').innerHTML = sum;
     <h2 style="text-align: center">
       Step 2 - Enter Your Shipping Details
     </h2>
-    <form>
+    <p class="text-center">
+    <i
+      >All Forms marked with '<span style="color: red">*</span>' are
+      required.</i
+    >
+  </p>
 
-      <form>
+      <form action="/shop/checkout/" method="post">{% csrf_token %}
+      <input type="hidden" name="itemsJson" id="itemsJson">
         <div class="form-row">
           <div class="form-group col-md-6">
-            <label for="inputName4">Name</label>
-            <input type="text" class="form-control" id="inputName4" placeholder="Enter your Name Here...">
+            <label for="name">Name <span style="color: red">*</span></label>
+            <input type="text" class="form-control" id="name" placeholder="Enter your Name Here..." name="name" required>
           </div>
           <div class="form-group col-md-6">
-            <label for="inputEmail4">Email</label>
-            <input type="email" class="form-control" id="inputEmail4" placeholder="Enter your Email Here...">
+            <label for="email">Email <span style="color: red">*</span></label>
+            <input type="email" class="form-control" id="email" placeholder="Enter your Email Here..." name="email" required>
           </div>
         </div>
+          <div class="form-group">
+            <label for="phone">Phone Number <span style="color: red">*</span></label>
+            <input type="tel" class="form-control" id="phone" placeholder="111-222-3333" name="phone" required>
+          </div>
         <div class="form-group">
-          <label for="inputAddress">Address</label>
-          <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St.">
+          <label for="address">Address <span style="color: red">*</span></label>
+          <input type="text" class="form-control" id="address1" placeholder="1234 Main St." name="address" required>
         </div>
         <div class="form-group">
-          <label for="inputAddress2">Address Line 2</label>
-          <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, Studio, Floor">
+          <label for="address2">Address Line 2</label>
+          <input type="text" class="form-control" id="address2" placeholder="Apartment, Studio, Floor">
         </div>
         <div class="form-row">
           <div class="form-group col-md-6">
-            <label for="inputCity">City</label>
-            <input type="text" class="form-control" id="inputCity"
-              placeholder="Toronto, Lahore, Tashkent, London, etc....">
+            <label for="city">City <span style="color: red">*</span></label>
+            <input type="text" class="form-control" id="city"
+              placeholder="Toronto, Lahore, Tashkent, London, etc...." name="city" required>
           </div>
           <div class="form-group col-md-4">
-            <label for="inputState">State</label>
-            <input type="text" class="form-control" id="inputState" placeholder="Punjab, Xiangin, Texas, UP, etc....">
+            <label for="state">State/Province <span style="color: red">*</span></label>
+            <input type="text" class="form-control" id="state" placeholder="Punjab, Xiangin, Texas, UP, etc...." name="state" required>
           </div>
           <div class="form-group col-md-2">
-            <label for="inputZip">Zip Code</label>
-            <input type="number" class="form-control" id="inputZip" placeholder="12345">
-          </div>
-          <div class="form-group">
-            <label for="inputPhone">Phone Number</label>
-            <input type="tel" class="form-control" id="inputPhone" placeholder="111-222-3333">
+            <label for="zip_code">Zip Code <span style="color: red">*</span></label>
+            <input type="number" class="form-control" id="zip_code" placeholder="12345" name="zip_code" required>
           </div>
         </div>
 
@@ -93,7 +99,7 @@ document.getElementById('cart').innerHTML = sum;
         </div>
       </form>
 
-    </form>
+    
   </div>
 </div>
 {% endblock %}
