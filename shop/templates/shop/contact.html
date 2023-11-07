@@ -1,6 +1,12 @@
 {% extends 'shop/basic.html' %} {% block title %} Contact Us {% endblock %}
 {% block body %}
-<div id="liveAlertPlaceholder"></div>
+<script>
+function thank() {
+{% if thank %}
+alert("Thank you for your message! We will be in touch with you soon.")
+{% endif %}
+}
+</script>
 <div class="container">
   <h3 class="my-3">Contact Us</h3>
   <p>
@@ -50,7 +56,7 @@
         >
         <textarea class="form-control" id="desc" rows="3" name="desc" required></textarea>
       </div>
-      <button class="btn btn-primary" id="submit" type="submit">Submit</button>
+      <button class="btn btn-primary" id="submit" onclick="thank()"type="submit">Submit</button>
 
     </div>
   </form>

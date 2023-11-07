@@ -28,6 +28,15 @@ for (item in cart) {
     $('#items').append(mystr);
 }
 document.getElementById('cart').innerHTML = sum;
+
+$('#itemsJson').val(JSON.stringify(cart));
+
+{% if thank %}
+alert("Thanks for ordering with us! Your order id is {{ id }}. Use it to track your order using our order tracker.");
+localStorage.clear();
+document.location = "/shop";
+{% endif %}
+
 </script>
 {% endblock js %}
 {% block body %}
@@ -56,6 +65,7 @@ document.getElementById('cart').innerHTML = sum;
 
       <form action="/shop/checkout/" method="post">{% csrf_token %}
       <input type="hidden" name="itemsJson" id="itemsJson">
+      <input type="text" style="display: none;" name="phone" id="phone">
         <div class="form-row">
           <div class="form-group col-md-6">
             <label for="name">Name <span style="color: red">*</span></label>
@@ -67,16 +77,16 @@ document.getElementById('cart').innerHTML = sum;
           </div>
         </div>
           <div class="form-group">
-            <label for="phone">Phone Number <span style="color: red">*</span></label>
-            <input type="tel" class="form-control" id="phone" placeholder="111-222-3333" name="phone" required>
+            <label style="margin-right: 900px" for="phoneNumber">Phone Number <span style="color: red">*</span></label>
+            <input  type="tel" class="form-control" id="phoneNumber" placeholder="111-222-3333" name="phoneNumber" required>
           </div>
         <div class="form-group">
           <label for="address">Address <span style="color: red">*</span></label>
-          <input type="text" class="form-control" id="address1" placeholder="1234 Main St." name="address" required>
+          <input type="text" class="form-control" id="address1" placeholder="1234 Main St." name="address1" required>
         </div>
         <div class="form-group">
           <label for="address2">Address Line 2</label>
-          <input type="text" class="form-control" id="address2" placeholder="Apartment, Studio, Floor">
+          <input type="text" class="form-control" id="address2" placeholder="Apartment, Studio, Floor" name="address2">
         </div>
         <div class="form-row">
           <div class="form-group col-md-6">
@@ -89,8 +99,8 @@ document.getElementById('cart').innerHTML = sum;
             <input type="text" class="form-control" id="state" placeholder="Punjab, Xiangin, Texas, UP, etc...." name="state" required>
           </div>
           <div class="form-group col-md-2">
-            <label for="zip_code">Zip Code <span style="color: red">*</span></label>
-            <input type="number" class="form-control" id="zip_code" placeholder="12345" name="zip_code" required>
+            <label for="zip">Zip Code <span style="color: red">*</span></label>
+            <input type="number" class="form-control" id="zip" placeholder="12345" name="zip_code" required>
           </div>
         </div>
 
