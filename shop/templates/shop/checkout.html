@@ -15,7 +15,7 @@
     </div>
     <div>
     <nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
+  <ol id="breadCrumb" class="breadcrumb">
     <li id="totalPrice" class="breadcrumb-item active" aria-current="page"></li>
   </ol>
 </nav>
@@ -96,7 +96,9 @@ if ($.isEmptyObject(cart)) {
     // If object is empty
     mystr = "<h6>Your Cart is Empty, Please Add Some Items Before Checking Out! </h6>"
     $('#items').append(mystr);
-    button = document.getElementById('placeorderButton').setAttribute('class', 'btn btn-primary disabled')
+    document.getElementById('placeorderButton').setAttribute('class', 'btn btn-primary disabled')
+    // hide the prices breadcrumb
+    document.getElementById('breadCrumb').style = "display: none;";
 }
 
 for (item in cart) {
