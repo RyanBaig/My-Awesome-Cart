@@ -89,7 +89,7 @@ def checkout(request):
         products = Product.objects.values('product_name', 'price')
         total_price = 0
         for product in products:
-            print(product['product_name'], product['price'])
+            
             total_price += product['price']
         
         return render(request, "shop/checkout.html", {'total_price': total_price})
