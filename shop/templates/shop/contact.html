@@ -1,13 +1,24 @@
 {% extends 'shop/basic.html' %}
 {% block title %} Contact Us - My Awesome Cart{% endblock %}
 {% block body %}
+{% block js %}
+
 <script>
 function thank() {
-{% if thank %}
+
+let name = document.getElementById('name');
+let email = document.getElementById('email');
+let phone = document.getElementById('phone');
+let msg = document.getElementById('desc');
+
+ if (name.value && email.value && phone.value && msg.value )
 alert("Thank you for your message! We will be in touch with you soon.")
-{% endif %}
+
 }
+
+
 </script>
+{% endblock js %}
 <div class="container">
   <h3 class="my-3">Contact Us</h3>
   <p>

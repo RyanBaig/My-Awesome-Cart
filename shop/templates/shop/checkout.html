@@ -114,21 +114,18 @@ for (item in cart) {
     $('#items').append(mystr);
 }
 document.getElementById('cart').innerHTML = sum;
-function addCommas(x) {
-  x = x.toString();
-  var pattern = /(-?\d+)(\d{3})/;
-  while (pattern.test(x)) {
-    x = x.replace(pattern, "$1,$2");
-  }
-  return x;
+
+function addCommas(number) {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
+
 document.getElementById('totalPrice').innerHTML = `Your Cart's Total Price is <strong>Rs. ${addCommas(totalPrice)}</strong>. Thank you for shopping with us!`;
 
 $('#itemsJson').val(JSON.stringify(cart));
 
 
-
 {% if thank %}
+
 alert("Thanks for ordering with us! Your order id is {{ id }}. Use it to track your order using our order tracker.");
 localStorage.clear();
 document.location = "/shop";

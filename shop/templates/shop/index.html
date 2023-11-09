@@ -3,6 +3,11 @@
     {% block title %}Shop Home - My Awesome Cart{% endblock %}
     {% block css %}
     <style>
+::selection {
+ background-color: purple;
+ color: white;  /* Text color when selected */
+}
+
 .card-body
  {
  height: 200px;
@@ -23,12 +28,12 @@
  height: 200px;
  }
 
- body .carousel-indicator li {
- background-color: transparent;
+ body .carousel-indicators li {
+ background-color: #36454F;
  }
 
  body .carousel-indicators {
- bottom: 0;
+ bottom: -40px;
  }
 
  body .carousel-control-prev-icon,
@@ -181,7 +186,7 @@ function updatePopover(cart) {
     }
     popStr = popStr + "</div> <a href='/shop/checkout'><button class='btn btn-primary' id ='checkout'>Checkout</button></a> <button class='btn btn-primary' onclick='clearCart()' id ='clearCart'>Clear Cart</button>     "
     document.getElementById('popcart').setAttribute('data-content', popStr);
-    $('#popcart').popover('show');
+    $('#popcart').popover();
 }
 
 function clearCart() {
