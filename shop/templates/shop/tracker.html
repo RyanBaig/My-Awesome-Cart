@@ -1,115 +1,87 @@
 {% extends 'shop/basic.html' %}
-{% block title %} Checkout - My Awesome Cart {% endblock %}
-{% block js %}
-<script>
-if (localStorage.getItem('cart') == null) {
-    var cart = {};
-} else {
-    cart = JSON.parse(localStorage.getItem('cart'));
-}
-console.log(cart);
-var sum = 0;
-if ($.isEmptyObject(cart)) {
-    // If object is empty
-    mystr = "<h6>Your Cart is Empty, Please Add Some Items Before Checking Out! </h6>"
-    $('#items').append(mystr);
-    button = document.getElementById('placeorderButton').setAttribute('class', 'btn btn-primary disabled')
-}
+{% block title %} Tracker - My Awesome Cart {% endblock %}
 
-for (item in cart) {
-
-    let name = cart[item][1];
-    let qty = cart[item][0];
-    sum = sum + qty;
-    mystr = `        <li class="list-group-item d-flex justify-content-between align-items-center">
-                   ${name}
-                    <span class="badge badge-primary badge-pill">${qty}</span>
-                </li>`
-    $('#items').append(mystr);
-}
-document.getElementById('cart').innerHTML = sum;
-
-$('#itemsJson').val(JSON.stringify(cart));
-
-{% if thank %}
-alert("Thanks for ordering with us! Your order id is {{ id }}. Use it to track your order using our order tracker.");
-localStorage.clear();
-document.location = "/shop";
-{% endif %}
-
-</script>
-{% endblock js %}
 {% block body %}
 
 <div class="container">
   <div class="col my-4">
     <h2 class="text-center">
-      My Awesome Cart Tracker - Track your Orders
-    </h2>
-
-    <h4 class="text-center">Cart Summary</h4>
-    <div class="mt-4">
-      <ul class="list-group text-center" id="items"></ul>
-    </div>
-  </div>
-  <div class="col my-2">
-    <h2 style="text-align: center">
-      Step 2 - Enter Your Shipping Details
+      Enter your Order ID and Email Address to Track your Order
     </h2>
     <p class="text-center">
-    <i
-      >All Forms marked with '<span style="color: red">*</span>' are
-      required.</i
-    >
-  </p>
-
-      <form action="/shop/checkout/" method="post">{% csrf_token %}
-      <input type="hidden" name="itemsJson" id="itemsJson">
+      <i>All Forms marked with '<span style="color: red">*</span>' are
+        required.</i>
+    </p>
+    <form action="#" method="post" id="trackerForm">{% csrf_token %}
       <input type="text" style="display: none;" name="phone" id="phone">
-        <div class="form-row">
-          <div class="form-group col-md-6">
-            <label for="name">Name <span style="color: red">*</span></label>
-            <input type="text" class="form-control" id="name" placeholder="Enter your Name Here..." name="name" required>
-          </div>
-          <div class="form-group col-md-6">
-            <label for="email">Email <span style="color: red">*</span></label>
-            <input type="email" class="form-control" id="email" placeholder="Enter your Email Here..." name="email" required>
-          </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="OrderID">Order ID <span style="color: red">*</span></label>
+          <input type="text" class="form-control" id="OrderID" placeholder="Enter your Order ID Here..." name="OrderID"
+            required>
         </div>
-          <div class="form-group">
-            <label style="margin-right: 900px" for="phoneNumber">Phone Number <span style="color: red">*</span></label>
-            <input  type="tel" class="form-control" id="phoneNumber" placeholder="111-222-3333" name="phoneNumber" required>
-          </div>
-        <div class="form-group">
-          <label for="address">Address <span style="color: red">*</span></label>
-          <input type="text" class="form-control" id="address1" placeholder="1234 Main St." name="address1" required>
+        <div class="form-group col-md-6">
+          <label for="email">Email <span style="color: red">*</span></label>
+          <input type="email" class="form-control" id="email" placeholder="Enter your Email Here..." name="email"
+            required>
         </div>
-        <div class="form-group">
-          <label for="address2">Address Line 2</label>
-          <input type="text" class="form-control" id="address2" placeholder="Apartment, Studio, Floor" name="address2">
+        <div class="text-center" style="align-items: center;">
+          <button type="submit" class="btn btn-primary">Track Order</button>
         </div>
-        <div class="form-row">
-          <div class="form-group col-md-6">
-            <label for="city">City <span style="color: red">*</span></label>
-            <input type="text" class="form-control" id="city"
-              placeholder="Toronto, Lahore, Tashkent, London, etc...." name="city" required>
-          </div>
-          <div class="form-group col-md-4">
-            <label for="state">State/Province <span style="color: red">*</span></label>
-            <input type="text" class="form-control" id="state" placeholder="Punjab, Xiangin, Texas, UP, etc...." name="state" required>
-          </div>
-          <div class="form-group col-md-2">
-            <label for="zip">Zip Code <span style="color: red">*</span></label>
-            <input type="number" class="form-control" id="zip" placeholder="12345" name="zip_code" required>
-          </div>
-        </div>
+    </form>
 
-        <div class="text-center">
-          <button type="submit" class="btn btn-primary" id="placeorderButton">Place Order</button>
-        </div>
-      </form>
-
-    
   </div>
+  <div class="col my-2">
+    <h2 class="text-center">
+      Your Order Status:
+    </h2>
+    <div class="my-4">
+      <ul class="list-group" id="items">
+      <span class="text-center"><strong>Enter your Order ID and Email Address to Track your Order</strong></span>
+      </ul>
+    </div>
+  </div>
+  </form>
+
 </div>
-{% endblock %}
+</div>
+{% endblock body%}
+{% block js %}
+<script>
+  $('#trackerForm').submit(function (event) {
+    event.preventDefault();
+    $('#items').empty();
+    var formData = {
+      'OrderID': $('input[name=OrderID]').val(),
+      'email': $('input[name=email]').val(),
+      'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+    };
+    $.ajax({
+        type: 'POST',
+        url: '/shop/tracker/',
+        data: formData,
+        encode: true
+      })
+      .done(function (data) {
+        let updates = JSON.parse(data)
+        if (updates.length > 0 & updates != {}) {
+          for (let i = 0; i < updates.length; i++) {
+            let text = updates[i]['text'];
+            let time = updates[i]['time'];
+            mystr = `        <li class="list-group-item d-flex justify-content-between align-items-center">
+                        ${text}
+                          <span class="badge badge-primary badge-pill">${time}</span>
+                      </li>`
+            $('#items').append(mystr);
+          }
+        } else {
+          mystr = `        <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Sorry, We are not able to fetch your order associated with your Order ID and Email. Please check the spelling of the Order ID and Email and try again.
+                          
+                      </li>`
+          $('#items').append(mystr);
+        }
+      });
+  });
+</script>
+{% endblock js %}
