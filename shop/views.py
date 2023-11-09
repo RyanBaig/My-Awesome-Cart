@@ -7,7 +7,7 @@ import json
 # Create your views here.
 def index(request):
     allProds = []
-    catProds = Product.objects.values('category', 'id')
+    catProds = Product.objects.values('category', 'id', 'price')
     cats = {item['category'] for item in catProds}
     for cat in cats:
         product = Product.objects.filter(category=cat)
@@ -48,7 +48,7 @@ def tracker(request):
                 updates = []
                 for item in update:
                     updates.append({'text': item.update_desc, 'time': item.timestamp})
-                    response = json.dumps(updates, default=str)
+                    response = json.dumps([updates, order[0].items_json], default=str)
                 return HttpResponse(response)
             else:
                 return HttpResponse('{}')
@@ -80,13 +80,19 @@ def checkout(request):
         order = Order(name=name, email=email, address=address, city=city, state=state, zip_code=zip_code, phone=phone, items_json=items_json)
         order.save()
         id = order.order_id
-        update = OrderUpdate(order_id=id, update_desc="The order has been placed")
+        update = OrderUpdate(order_id=id, update_desc="The order has been placed.")
         update.save()
         thank = True
         
         return render(request, "shop/checkout.html", {'thank': thank, 'id': id})
     else:
-        return render(request, "shop/checkout.html")
+        products = Product.objects.values('product_name', 'price')
+        total_price = 0
+        for product in products:
+            print(product['product_name'], product['price'])
+            total_price += product['price']
+        
+        return render(request, "shop/checkout.html", {'total_price': total_price})
 
 
 

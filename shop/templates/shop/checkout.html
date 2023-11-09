@@ -1,44 +1,6 @@
 {% extends 'shop/basic.html' %}
 {% block title %} Checkout - My Awesome Cart {% endblock %}
-{% block js %}
-<script>
-if (localStorage.getItem('cart') == null) {
-    var cart = {};
-} else {
-    cart = JSON.parse(localStorage.getItem('cart'));
-}
-console.log(cart);
-var sum = 0;
-if ($.isEmptyObject(cart)) {
-    // If object is empty
-    mystr = "<h6>Your Cart is Empty, Please Add Some Items Before Checking Out! </h6>"
-    $('#items').append(mystr);
-    button = document.getElementById('placeorderButton').setAttribute('class', 'btn btn-primary disabled')
-}
 
-for (item in cart) {
-
-    let name = cart[item][1];
-    let qty = cart[item][0];
-    sum = sum + qty;
-    mystr = `        <li class="list-group-item d-flex justify-content-between align-items-center">
-                   ${name}
-                    <span class="badge badge-primary badge-pill">${qty}</span>
-                </li>`
-    $('#items').append(mystr);
-}
-document.getElementById('cart').innerHTML = sum;
-
-$('#itemsJson').val(JSON.stringify(cart));
-
-{% if thank %}
-alert("Thanks for ordering with us! Your order id is {{ id }}. Use it to track your order using our order tracker.");
-localStorage.clear();
-document.location = "/shop";
-{% endif %}
-
-</script>
-{% endblock js %}
 {% block body %}
 
 <div class="container">
@@ -50,6 +12,13 @@ document.location = "/shop";
     <h4 class="text-center">Cart Summary</h4>
     <div class="mt-4">
       <ul class="list-group text-center" id="items"></ul>
+    </div>
+    <div>
+    <nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li id="totalPrice" class="breadcrumb-item active" aria-current="page"></li>
+  </ol>
+</nav>
     </div>
   </div>
   <div class="col my-2">
@@ -112,4 +81,59 @@ document.location = "/shop";
     
   </div>
 </div>
-{% endblock %}
+{% endblock body%}
+{% block js %}
+<script>
+if (localStorage.getItem('cart') == null) {
+    var cart = {};
+} else {
+    cart = JSON.parse(localStorage.getItem('cart'));
+}
+console.log(cart);
+var sum = 0;
+var totalPrice = 0;
+if ($.isEmptyObject(cart)) {
+    // If object is empty
+    mystr = "<h6>Your Cart is Empty, Please Add Some Items Before Checking Out! </h6>"
+    $('#items').append(mystr);
+    button = document.getElementById('placeorderButton').setAttribute('class', 'btn btn-primary disabled')
+}
+
+for (item in cart) {
+
+    let name = cart[item][1];
+    let qty = cart[item][0];
+    let itemPrice = cart[item][2];
+
+    totalPrice = totalPrice + qty * itemPrice
+    sum = sum + qty;
+    mystr = `        <li class="list-group-item d-flex justify-content-between align-items-center">
+                   ${name}
+                    <span class="badge badge-primary badge-pill">${qty}</span>
+                </li>`
+    $('#items').append(mystr);
+}
+document.getElementById('cart').innerHTML = sum;
+function addCommas(x) {
+  x = x.toString();
+  var pattern = /(-?\d+)(\d{3})/;
+  while (pattern.test(x)) {
+    x = x.replace(pattern, "$1,$2");
+  }
+  return x;
+}
+document.getElementById('totalPrice').innerHTML = `Your Cart's Total Price is <strong>Rs. ${addCommas(totalPrice)}</strong>. Thank you for shopping with us!`;
+
+$('#itemsJson').val(JSON.stringify(cart));
+
+
+
+{% if thank %}
+alert("Thanks for ordering with us! Your order id is {{ id }}. Use it to track your order using our order tracker.");
+localStorage.clear();
+document.location = "/shop";
+{% endif %}
+
+
+</script>
+{% endblock js %}
