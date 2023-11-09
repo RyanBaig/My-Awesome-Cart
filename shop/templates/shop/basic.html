@@ -12,14 +12,21 @@
 
 
     <title>{% block title %}{% endblock %}</title>
-    
+
     {% block css %}
-    
+
     {% endblock %}
     <style>
-    .btn, .btn-secondary {
-        margin: 5px;
-    }
+        .btn,
+        .btn-secondary {
+            margin: 5px;
+        }
+
+        ::selection {
+            background-color: purple;
+            color: white;
+            /* Text color when selected */
+        }
     </style>
 </head>
 
@@ -48,25 +55,27 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/shop/contact">Contact Us</a>
                 </li>
-                
-                 
+
+
             </ul>
             <form class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
-            
-            <button type="button" class="btn btn-secondary" id="popcart" data-container="body" data-toggle="popover" data-placement="bottom" data-html="true" data-content="Bottom popover">
-            Cart (<span id="cart">0</span>)
+
+            <button type="button" class="btn btn-secondary" id="popcart" data-container="body" data-toggle="popover"
+                data-placement="bottom" data-html="true" data-content="Bottom popover">
+                Cart (<span id="cart">0</span>)
             </button>
         </div>
     </nav>
 
-    
+
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
         integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous">
@@ -74,17 +83,20 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
         integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous">
     </script>
-    
-{% block body %} {% endblock %}
-    <script>
 
-{% block comment %} //
-{% endblock comment %}
-</script>
+    {% block body %} {% endblock %}
+    <script>
+        {
+            % block comment %
+        } //
+        {
+            % endblock comment %
+        }
+    </script>
     {% block js %}
-    
+
     {% endblock %}
-    
+
 </body>
 
 </html>
