@@ -190,7 +190,7 @@ function updatePopover(cart) {
         </button>
     </a>
     <button class='btn btn-primary' onclick='clearCart()' id='clearCart'>
-    <i class="fa-solid fa-square-minus"></i>
+    <i class="fas fa-trash"></i>
     Clear Cart
     </button>
 </div>
@@ -217,8 +217,8 @@ function updateCart(cart) {
         document.getElementById('div' + item).innerHTML = "<button id='minus" + item + "' class='btn btn-primary minus'><i class='fa-solid fa-circle-minus'></i></button> <span id='val" + item + "''>" + cart[item][0] + "</span> <button id='plus" + item + "' class='btn btn-primary plus'> <i class='fa-solid fa-circle-plus'></i> </button>";
     }
     localStorage.setItem('cart', JSON.stringify(cart));
-    let a = document.getElementById('cart').innerHTML = sum;
-    console.log('a: ' + a)
+    document.getElementById('cart').innerHTML = sum;
+    
     console.log(cart);
     updatePopover(cart);
 }
