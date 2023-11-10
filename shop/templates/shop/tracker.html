@@ -60,6 +60,9 @@
 {% endblock body%}
 {% block js %}
 <script>
+function addCommas(number) {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
   $('#trackerForm').submit(function (event) {
     event.preventDefault();
     $('#citems').empty();
@@ -102,11 +105,12 @@ for (item in cart) {
 
     let name = cart[item][1];
     let qty = cart[item][0];
+    let itemPrice = cart[item][2];
 
     
-    mystr = `        <li class="list-group-item d-flex justify-content-between align-items-center">
+   mystr = `        <li class="list-group-item d-flex justify-content-between align-items-center">
                    ${name}
-                    <span class="badge badge-primary badge-pill">${qty}</span>
+                    <span class="badge badge-primary badge-pill">Quantity: ${qty} & Price: Rs. ${addCommas(itemPrice * qty)}</span>
                 </li>`
     
     $("#orderDetailsTitle").text("Order Details:");

@@ -84,6 +84,10 @@
 {% endblock body%}
 {% block js %}
 <script>
+function addCommas(number) {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 if (localStorage.getItem('cart') == null) {
     var cart = {};
 } else {
@@ -111,15 +115,13 @@ for (item in cart) {
     sum = sum + qty;
     mystr = `        <li class="list-group-item d-flex justify-content-between align-items-center">
                    ${name}
-                    <span class="badge badge-primary badge-pill">${qty}</span>
+                    <span class="badge badge-primary badge-pill">Quantity: ${qty} & Price: Rs. ${addCommas(itemPrice * qty)}</span>
                 </li>`
     $('#items').append(mystr);
 }
 document.getElementById('cart').innerHTML = sum;
 
-function addCommas(number) {
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
+
 
 document.getElementById('totalPrice').innerHTML = `Your Cart's Total Price is <strong>Rs. ${addCommas(totalPrice)}</strong>. Thank you for shopping with us!`;
 
