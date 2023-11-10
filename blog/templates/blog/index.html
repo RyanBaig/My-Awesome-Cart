@@ -5,7 +5,7 @@ Blog Home - My Awesome Cart
 {% endblock title %}
 
 
-{% block body%}
+{% block body %}
 <div class="container mt-3">
     <div class="row my-2 mb-3">
         {% for item in myposts %}
@@ -14,13 +14,12 @@ Blog Home - My Awesome Cart
                 <div class="col p-4 d-flex flex-column position-static">
                     
                     <h3 class="mb-0">{{ item.title }}</h3>
-                    <div class="mb-1 text-muted"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
-  <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
-</svg> {{ item.pub_date }}</div>
-                    <p class="card-text mb-auto">{{ item.head0 }}</p>
-                    <a href="/blog/post/{{ item.post_id }}" class="stretched-link">Continue reading <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
-  <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
-</svg></a>
+                    <div class="mb-1 text-muted"><i class="fa-regular fa-calendar-days"></i> {{ item.pub_date }}</div>
+                    
+                    <h5 class="card-text ">{{ item.head0 }}</h5>
+                    <p class="card-text ">{{ item.chead0|slice:":100" }}...</p>
+                    
+                    <a href="/blog/post/{{ item.post_id }}" class="stretched-link">Continue reading <i class="fa-solid fa-arrow-right-long"></i></a>
                 </div>
                 <div class="col-auto d-none d-lg-block">
                     <img src="/media/{{ item.thumbnail }}" class="bd-placeholder-img" width="200" height="250" aria-label="Placeholder: Thumbnail">
