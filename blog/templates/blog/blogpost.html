@@ -24,32 +24,47 @@ Blog Post - My Awesome Cart
                     <p class="blog-post-meta"><i class="fa-regular fa-calendar-days"></i> {{ post.pub_date }} by <i class="fa-solid fa-user"></i> <a href="#">Author</a></p>
 
                     
-                    <p> {{ post.chead0 }} </p>
+                    <p> {{ post.chead0|linebreaks }} </p>
                     
                     
                     <h2>{{ post.head1 }}</h2>
-                    <p>{{ post.chead1 }} </p>
+                    <p>{{ post.chead1|linebreaks }} </p>
                     
                     <h2>{{ post.head2 }}</h2>
-                    <p> {{ post.chead2 }} </p>
+                    <p> {{ post.chead2|linebreaks }} </p>
                     
                     
                     
-                </div><!-- /.blog-post -->
+                </div>
                 <hr class="mt-5 mb-5">
-                
-
                 <nav class="blog-pagination">
-                    <a class="btn btn-outline-primary" href="#">Older</a>
-                    <a class="btn btn-outline-secondary disabled" href="#" tabindex="-1" aria-disabled="true">Newer</a>
+                    {% if prev_post != "No Previous Posts..." %}
+                    <a class="btn btn-outline-primary" href="/blog/post/{{ prev_post.post_id }}">View the Previous Post
+                        ({{ prev_post.title }})</a>
+                    {% else %}
+                    <button class="btn btn-outline-primary disabled" disabled>No Previous Posts</button>
+                    {% endif %}
+
+                    {% if next_post != "No New Posts..." %}
+                    <a class="btn btn-outline-secondary" href="/blog/post/{{ next_post.post_id }}" tabindex="-1">View the Next Post
+                        ({{ next_post.title }})</a>
+                    {% else %}
+                    <button class="btn btn-outline-secondary disabled" disabled>No New Posts</button>
+                    {% endif %}
                 </nav>
 
-            </div><!-- /.blog-main -->
+
+
+
+            </div><!-- Sidebar -->
 
             <aside class="col-md-4 blog-sidebar">
                 <div class="p-4 mb-3 bg-light rounded">
                     <h4 class="font-italic"><i class="fa-solid fa-circle-info"></i> About</h4>
-                    <p class="mb-0">My Awesome Cart is an <em>E-commerce Website</em>. You can use it to buy and search for items. It has a blog section, where there are present help articles for varios bugs/problems. </p>
+                    <p class="mb-0">My Awesome Cart is an <em>E-commerce Website</em>.
+                    You can use it to buy and search for items.
+                    It has a blog section, where there are present help articles for various bugs/problems.
+                    </p>
                 </div>
 
                 
