@@ -24,7 +24,7 @@ jobs:
 
     - name: Run Tests
       run: |
-        cd TextUtils && python manage.py test
+        python manage.py test
 
     # Add deployment steps below if needed
     # - name: Deploy to server
