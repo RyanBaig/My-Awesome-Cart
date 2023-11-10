@@ -11,26 +11,27 @@ Blog Post - My Awesome Cart
 
 {% block body %}
 <body>
+
     <div class="container">
         <div class="row mt-4">
             <div class="col-md-8 blog-main">
                 <h3 class="pb-4 mb-4 font-italic border-bottom">
-                    Title
+                    {{ post.title }}
                 </h3>
 
                 <div class="blog-post">
-                    <h2 class="blog-post-title">Heading 0</h2>
-                    <p class="blog-post-meta">Month Date, Year by <a href="#">Author</a></p>
+                    <h2 class="blog-post-title">{{ post.head0 }}</h2>
+                    <p class="blog-post-meta">{{ post.pub_date }} by <a href="#">Author</a></p>
 
                     
-                    <p>heading 0 content </p>
+                    <p> {{ post.chead0 }} </p>
                     
                     
-                    <h2>Heading 1</h2>
-                    <p>heading 1 content </p>
+                    <h2>{{ post.head1 }}</h2>
+                    <p>{{ post.chead1 }} </p>
                     
-                    <h2>Heading 2</h2>
-                    <p>heading 2 content </p>
+                    <h2>{{ post.head2 }}</h2>
+                    <p> {{ post.chead2 }} </p>
                     
                     
                     
