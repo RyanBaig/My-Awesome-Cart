@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
 from .models import *
 from math import ceil
 import json
@@ -65,26 +66,25 @@ def productView(request, myid):
     return render(request, "shop/prodview.html", {'product': product[0]})
 
 def checkout(request):
-    if request.method == "POST":
-
-        items_json = request.POST.get('itemsJson', '{}')
+    if request.method=="POST":
+        items_json = request.POST.get('itemsJson', '')
         name = request.POST.get('name', '')
+        amount = request.POST.get('amount', '')
         email = request.POST.get('email', '')
         address = request.POST.get('address1', '') + " " + request.POST.get('address2', '')
         city = request.POST.get('city', '')
         state = request.POST.get('state', '')
         zip_code = request.POST.get('zip_code', '')
-        phone = request.POST.get('phoneNumber', '')
-
-        
-        order = Order(name=name, email=email, address=address, city=city, state=state, zip_code=zip_code, phone=phone, items_json=items_json)
+        phone = request.POST.get('phone', '')
+        order = Order(items_json=items_json, name=name, email=email, address=address, city=city,
+                       state=state, zip_code=zip_code, phone=phone, amount=amount)
         order.save()
-        id = order.order_id
-        update = OrderUpdate(order_id=id, update_desc="The order has been placed.")
+        update = OrderUpdate(order_id=order.order_id, update_desc="The order has been placed")
         update.save()
         thank = True
-        
-        return render(request, "shop/checkout.html", {'thank': thank, 'id': id})
+        id = order.order_id
+        return render(request, 'shop/checkout.html', {'thank':thank, 'id': id})
+    
     else:
         products = Product.objects.values('product_name', 'price')
         total_price = 0
@@ -95,7 +95,9 @@ def checkout(request):
         return render(request, "shop/checkout.html", {'total_price': total_price})
 
 
-
+@csrf_exempt
+def handlerequest(request):
+    ...
 
 
 

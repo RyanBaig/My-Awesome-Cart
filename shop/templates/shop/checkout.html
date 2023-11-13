@@ -34,6 +34,7 @@
 
       <form action="/shop/checkout/" method="post">{% csrf_token %}
       <input type="hidden" name="itemsJson" id="itemsJson">
+      <input type="hidden" name="amount" id="amount">
       <input type="text" style="display: none;" name="phone" id="phone">
         <div class="form-row">
           <div class="form-group col-md-6">
@@ -113,12 +114,14 @@ for (item in cart) {
 
     totalPrice = totalPrice + qty * itemPrice
     sum = sum + qty;
-    mystr = `        <li class="list-group-item d-flex justify-content-between align-items-center">
+    let mystr = `        <li class="list-group-item d-flex justify-content-between align-items-center">
                    ${name}
                     <span class="badge badge-primary badge-pill">Quantity: ${qty} & Price: Rs. ${addCommas(itemPrice * qty)}</span>
                 </li>`
     $('#items').append(mystr);
+    document.getElementById("amount").value = totalPrice;
 }
+
 document.getElementById('cart').innerHTML = sum;
 
 

@@ -9,6 +9,7 @@ def index(request):
     return render(request, "blog/index.html", {'myposts': myposts})
 
 def blogpost(request, id):
+    # EXERCISE COMPLETED (ADD NEXT/PREVIOUS BUTTONS FOR POSTS)
     post = get_object_or_404(Blogpost, post_id=id)
     next_post = Blogpost.objects.filter(post_id=id + 1).first()
     prev_post = Blogpost.objects.filter(post_id=id - 1).first()
