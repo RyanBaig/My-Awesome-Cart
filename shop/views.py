@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from django.views.decorators.csrf import csrf_exempt
 from .models import *
 from math import ceil
 import json
@@ -95,9 +94,7 @@ def checkout(request):
         return render(request, "shop/checkout.html", {'total_price': total_price})
 
 
-@csrf_exempt
-def handlerequest(request):
-    ...
+
 
 
 
