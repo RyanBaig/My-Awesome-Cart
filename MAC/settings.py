@@ -32,7 +32,8 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 INSTALLED_APPS = [
     "shop.apps.ShopConfig",
-    "django.contrib.admin",
+    'jazzmin',
+    'django.contrib.admin',
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",

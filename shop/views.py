@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import *
+from .models import Product, Order, OrderUpdate, Contact
 from math import ceil
 import json
 
@@ -111,7 +111,7 @@ def checkout(request):
 #            EXERCISE
 # from .models import Product
 
-#def index(request):
+# def index(request):
 #    products = Product.objects.all()
 #    context = {'products': products}
 #    return render(request, 'shop/index.html', context)
