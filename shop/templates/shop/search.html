@@ -141,6 +141,12 @@ body .no-padding {
 
 {% block js %}
 <script>
+{% if msg != "" %}
+alert('{{ msg }}');
+window.location.href = "/shop"
+{% else %}
+{% endif %}
+
 // Find out the cart items from localStorage
 if (localStorage.getItem('cart') == null) {
     var cart = {};
