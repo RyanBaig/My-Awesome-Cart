@@ -37,16 +37,17 @@
     </h2>
     <div class="my-4">
       <ul class="list-group" id="items">
-        <span id="paragraphId" class="text-center"><strong>Enter your Order ID and Email Address to Track your Order</strong></span>
+        <span id="paragraphId" class="text-center"><strong>Enter your Order ID and Email Address to Track your
+            Order</strong></span>
       </ul>
-    </div>
+  </div>
 
     <h2 class="text-center" id="orderDetailsTitle">
-      
+
     </h2>
     <div class="my-4">
       <ul class="list-group" id="citems">
-       
+
       </ul>
     </div>
 
@@ -60,12 +61,13 @@
 {% endblock body%}
 {% block js %}
 <script>
-function addCommas(number) {
+  function addCommas(number) {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
+  }
   $('#trackerForm').submit(function (event) {
     event.preventDefault();
     $('#citems').empty();
+    $('#items').empty();
     var formData = {
       'OrderID': $('input[name=OrderID]').val(),
       'email': $('input[name=email]').val(),
@@ -77,53 +79,51 @@ function addCommas(number) {
         data: formData,
         encode: true
       })
-      .done(function (data) {
-        data = JSON.parse(data);
-        let updates = data[0];
-        if (updates.length > 0 & updates != {}) {
-          for (let i = 0; i < updates.length; i++) {
-            let text = updates[i]['text'];
-            let time = new Date(updates[i]['time']);
-            time = ((time.toString().split(' ')).slice(0, 5)).join(' ');
-            mystr = `        <li class="list-group-item d-flex justify-content-between align-items-center">
-                        ${text}
-                          <span class="badge badge-primary badge-pill">${time}</span>
-                      </li>`
-            $('#items').append(mystr);
-          }
-        } else {
-          mystr = `        <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Sorry, We are not able to fetch your order associated with your Order ID and Email. Please check the spelling of the Order ID and Email and try again.
-                          
-                      </li>`
-          $('#items').append(mystr);
-        }
-// fill in the order details
-cart = JSON.parse(data[1]);
-console.log(cart);
-for (item in cart) {
-
-    let name = cart[item][1];
-    let qty = cart[item][0];
-    let itemPrice = cart[item][2];
-
-    
-   mystr = `        <li class="list-group-item d-flex justify-content-between align-items-center">
-                   ${name}
-                    <span class="badge badge-primary badge-pill">Quantity: ${qty} & Price: Rs. ${addCommas(itemPrice * qty)}</span>
+      .done(function(data) {
+            $('#citems').empty();
+            $('#items').empty();
+            console.log(data)
+            data = JSON.parse(data);
+            if (data['status'] == 'success') {
+                updates = data['updates'];
+                for (i = 0; i < updates.length; i++) {
+                    let text = updates[i]['text'];
+                    let time = updates[i]['time'];
+                    time = time.replace('+00:00', "");
+                    mystr = `<li class="list-group-item d-flex justify-content-between align-items-center">
+                    ${text}
+                    <span class="badge badge-primary badge-pill">${time}</span>
                 </li>`
-    
-    $("#orderDetailsTitle").text("Order Details:");
-    $('#citems').append(mystr);
-    document.getElementById("paragraphId").textContent = "";
-    
+                    $('#items').append(mystr);
+                }
+                // Fill in the order details
+                cart = JSON.parse(data['itemsJson']);
+                console.log(cart);
+                for (item in cart) {
+                    let name = cart[item][1];
+                    let qty = cart[item][0];
+                    let itemPrice = cart[item][2];
+                    mystr = `<li class="list-group-item d-flex justify-content-between align-items-center">
+                    ${name}
+                    <span class="badge badge-primary badge-pill">Quantity: ${qty} & Price: ${addCommas(itemPrice)}</span>
+                </li>`
+                    $("#orderDetailsTitle").text("Order Details:");
+                    $('#citems').append(mystr);
+                }
+            } else {
+                mystr = `<li class="list-group-item d-flex justify-content-between align-items-center">
+                    Sorry, We are not able to fetch your order associated with your Order ID and Email. Please check the spelling of the Order ID and Email and try again.</li>`
+                $('#items').append(mystr);
+                $('#citems').append(mystr);
+            }
+        });
+    event.preventDefault();
+});
+
+function addCommas(number) {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-
-});
-
-  
-});
 
 
 </script>

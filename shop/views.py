@@ -41,23 +41,31 @@ def contact(request):
     return render(request, "shop/contact.html", {"thank": True})
 
 def tracker(request):
-    if request.method == "POST":
-        orderID = request.POST.get('OrderID', '')
+    if request.method=="POST":
+        orderId = request.POST.get('OrderID', '')
         email = request.POST.get('email', '')
         try:
-            order = Order.objects.filter(order_id=orderID, email=email)
-            if len(order) > 0:
-                update = OrderUpdate.objects.filter(order_id=orderID)
+            order = Order.objects.filter(order_id=orderId, email=email)
+            if len(order)>0:
+                update = OrderUpdate.objects.filter(order_id=orderId)
                 updates = []
                 for item in update:
                     updates.append({'text': item.update_desc, 'time': item.timestamp})
-                    response = json.dumps([updates, order[0].items_json], default=str)
+                    response = json.dumps({"status":"success", "updates": updates, "itemsJson": order[0].items_json}, default=str)  # noqa: E501
                 return HttpResponse(response)
             else:
-                return HttpResponse('{}')
+                return HttpResponse('{"status":"noitem"}')
         except Exception:
-            pass
-    return render(request, "shop/tracker.html")
+            return HttpResponse('{"status":"error"}')
+    else:
+        products = Product.objects.values('product_name', 'price')
+        total_price = 0
+        for product in products:
+            
+            total_price += product['price']
+        
+        return render(request, "shop/tracker.html", {'total_price': total_price})
+    
 
 def searchMatch(query, item):
     if query.lower() in item.desc.lower() or query in item.product_name.lower() or query in item.category.lower(): # noqa: E501
@@ -109,7 +117,7 @@ def checkout(request):
         order.save()
 
         update = OrderUpdate(order_id=order.order_id,
-        update_desc="The order has been placed")
+        update_desc="The order has been placed.")
 
         update.save()
 
