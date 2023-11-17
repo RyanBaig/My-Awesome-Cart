@@ -1,8 +1,11 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-from .models import Product, Order, OrderUpdate, Contact
-from math import ceil
 import json
+from math import ceil
+
+from django.http import HttpResponse
+from django.shortcuts import render
+
+from .models import Contact, Order, OrderUpdate, Product
+
 
 # Create your views here.
 def index(request):
@@ -56,8 +59,29 @@ def tracker(request):
             pass
     return render(request, "shop/tracker.html")
 
+def searchMatch(query, item):
+    if query in item.product_name.lower() or query in item.category.lower() or item.desc.lower():  # noqa: E501
+        return True
+    else:
+        return False
+
+
 def search(request):
-    return render(request, "shop/search.html")
+    query= request.GET.get('search')
+    allProds = []
+    catprods = Product.objects.values('category', 'id')
+    cats = {item['category'] for item in catprods}
+    for cat in cats:
+        prodtemp = Product.objects.filter(category=cat)
+        prod=[item for item in prodtemp if searchMatch(query, item)]
+        n = len(prod)
+        nSlides = n // 4 + ceil((n / 4) - (n // 4))
+        if len(prod)!= 0:
+            allProds.append([prod, range(1, nSlides), nSlides])
+    params = {'allProds': allProds, "msg":""}
+    if len(allProds)==0 or len(query)<4:
+        params={'msg':"Please make sure to enter relevant search query"}
+    return render(request, 'shop/search.html', params)
 
 def productView(request, myid):
     product = Product.objects.filter(id=myid)
@@ -70,18 +94,29 @@ def checkout(request):
         name = request.POST.get('name', '')
         amount = request.POST.get('amount', '')
         email = request.POST.get('email', '')
-        address = request.POST.get('address1', '') + " " + request.POST.get('address2', '')
+
+        address = request.POST.get('address1', '') + " " + request.POST.get(
+            'address2', '')  
+
         city = request.POST.get('city', '')
         state = request.POST.get('state', '')
         zip_code = request.POST.get('zip_code', '')
         phone = request.POST.get('phone', '')
-        order = Order(items_json=items_json, name=name, email=email, address=address, city=city,
-                       state=state, zip_code=zip_code, phone=phone, amount=amount)
+
+        order = Order(items_json=items_json, name=name, email=email, address=address,
+         city=city, state=state, zip_code=zip_code, phone=phone, amount=amount)
+
         order.save()
-        update = OrderUpdate(order_id=order.order_id, update_desc="The order has been placed")
+
+        update = OrderUpdate(order_id=order.order_id,
+        update_desc="The order has been placed")
+
         update.save()
+
         thank = True
+
         id = order.order_id
+
         return render(request, 'shop/checkout.html', {'thank':thank, 'id': id})
     
     else:

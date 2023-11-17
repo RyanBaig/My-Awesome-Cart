@@ -4,51 +4,49 @@
     {% block css %}
     <style>
 
+.card-body {
+    height: 200px;
+    padding: 20px;
+}
 
-.card-body
- {
- height: 200px;
- padding: 20px;
- }
+.col-md-3 {
+    display: inline-block;
+    margin-left: -4px;
+}
 
- .col-md-3 {
- display: inline-block;
- margin-left: -4px;
- }
+.carousel-indicators .active {
+    background-color: black;
+}
 
- .carousel-indicators .active {
- background-color: black;
- }
+.col-md-3 img {
+    width: 170px;
+    height: 200px;
+}
 
- .col-md-3 img {
- width: 170px;
- height: 200px;
- }
+body .carousel-indicators li {
+    background-color: #36454F;
+}
 
- body .carousel-indicators li {
- background-color: #36454F;
- }
+body .carousel-indicators {
+    bottom: -40px;
+}
 
- body .carousel-indicators {
- bottom: -40px;
- }
+body .carousel-control-prev-icon,
+body .carousel-control-next-icon {
+    background-color: black;
+}
 
- body .carousel-control-prev-icon,
- body .carousel-control-next-icon {
- background-color: black;
- }
+.carousel-control-prev,
+.carousel-control-next {
+    top: auto;
+    bottom: auto;
+    padding-top: 222px;
+}
 
- .carousel-control-prev,
- .carousel-control-next {
- top: auto;
- bottom: auto;
- padding-top: 222px;
- }
-
- body .no-padding {
- padding-left: 0;
- padding-right: 0;
- }
+body .no-padding {
+    padding-left: 0;
+    padding-right: 0;
+}
         </style>
     {% endblock %}
 
