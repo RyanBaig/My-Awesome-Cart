@@ -44,6 +44,6 @@ class OrderUpdate(models.Model):
     order_id = models.IntegerField(default="")
     update_desc = models.CharField(max_length=5000)
     timestamp = models.DateTimeField(default=datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))  # noqa: E501
-    
+
     def __str__(self):
         return self.update_desc[0:7] + "..."
