@@ -1,4 +1,3 @@
 Django
 Pillow
-psycopg2-binary
 django-jazzmin
