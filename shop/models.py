@@ -7,7 +7,7 @@ class Product(models.Model):
     category = models.CharField(max_length=50, default="")
     subcategory = models.CharField(max_length=50, default="")
     price = models.IntegerField(default=0)
-    desc = models.CharField(max_length=4000, default="No description Provided.")
+    desc = models.TextField(max_length=4000, default="No description Provided.")
     pub_date = models.DateField()
     image = models.ImageField(upload_to="shop/images", default="")
 
@@ -44,6 +44,6 @@ class OrderUpdate(models.Model):
     order_id = models.IntegerField(default="")
     update_desc = models.CharField(max_length=5000)
     timestamp = models.DateTimeField(default=datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))  # noqa: E501
-    
+
     def __str__(self):
         return self.update_desc[0:7] + "..."
