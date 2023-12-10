@@ -43,25 +43,19 @@ Blog Post - My Awesome Cart
             <hr class="mt-b mb-5">
             
             {% comment %} <div class="fb-comments" data-width="" data-href="http://localhost:8000/blog/post/{{ post.post_id }}" data-numposts="5" data-show-faces="false"></div> {% endcomment %}
-            <div id="disqus_thread"></div>
-<script>
-    /**
-    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
-    
-    var disqus_config = function () {
-    this.page.url = "/blog/post/{{ post.post_id }}";  // Replace PAGE_URL with your page's canonical URL variable
-    this.page.identifier = "MAC-BLOG-{{ post.post_id }}"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-    };
-    
-    (function() { // DON'T EDIT BELOW THIS LINE
-    var d = document, s = d.createElement('script');
-    s.src = 'https://my-awesome-cart.disqus.com/embed.js';
-    s.setAttribute('data-timestamp', +new Date());
-    (d.head || d.body).appendChild(s);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+            <script type="text/javascript" src="https://latest.cactus.chat/cactus.js"></script>
+            <link rel="stylesheet" href="https://latest.cactus.chat/style.css" type="text/css">
+            <div id="comment-section"></div>
+
+            <script>
+                initComments({
+                    node: document.getElementById("comment-section"),
+                    defaultHomeserverUrl: "https://matrix.cactus.chat:8448",
+                    serverName: "cactus.chat",
+                    siteName: "MAC",
+                    commentSectionId: "MAC-BLOG-{{ post.post_id }}"
+                })
+            </script>
 
 
             </div><!-- Sidebar -->
